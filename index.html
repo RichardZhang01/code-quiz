@@ -9,7 +9,7 @@
   <body>
     <header>
       <div class="highscore-button-container">
-        <button type="button" id="highscore-button">Highscores</button>
+        <button type="button" id="highscore-button">View Highscores</button>
       </div>
 
       <div class="timer">
@@ -19,7 +19,7 @@
 
     <main>
 
-      <div class="intro">
+      <section class="intro">
         <h1 id="title">Coding Quiz Challenge</h1>
         <p id="description">
           Welcome to the Coding Quiz Challenge. This is a timed quiz. When you
@@ -32,21 +32,37 @@
           option to save your initials and your score once the quiz is over.
         </p>
         <button type="button" id="start">Start</button>
-      </div>
+      </section>
 
-      <div class="quiz">
+      <section class="quiz">
 
         <h1 id="question"></h1>
         <ol class="options"></ol>
         <p class="response"></p>
 
-      </div>
+      </section>
 
-      <div class="highscores">
+      <section class="highscores">
+
         <h1 id="user-score">HIGHSCORES</h1>
-        <button type="button" class="back">Back</button>
-      </div>
-    </main>
+        <button type="button" id="back">Back</button>
+        <button type="button" id="clear">Clear Highscores</button>
+
+      </section>
+
+      <section class="quiz-results">
+
+        <h1 id="results">Nice Work!</h1>
+
+        <form class="save-score">
+          <label for="initials">Enter your initials:</label>
+          <input type="text" id="initials" name="initials" placeholder="Your initials"><br>
+          <input type="submit" value="Submit" id="submit"></button>
+        </form>
+
+        <button type="button" id="return">Back</button>  
+
+      </section>
 
     <script src="./assets/js/script.js"></script>
   </body>
