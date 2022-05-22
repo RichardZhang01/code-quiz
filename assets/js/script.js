@@ -1,3 +1,4 @@
+// creating variables that link to their respective button in the HTML document
 const highScoreBtn = document.querySelector("#highscore-button");
 const startBtn = document.querySelector("#start");
 const backBtn = document.querySelector("#back");
@@ -5,25 +6,30 @@ const clearBtn = document.querySelector("#clear");
 const submitBtn = document.querySelector("#submit");
 const returnBtn = document.querySelector("#return");
 
+// creating variables that link to their respective element in the HTML document
 const timerEl = document.querySelector("#time-count");
 const titleQuestionEl = document.querySelector("#title");
 const optionsAnswersEl = document.querySelector("options");
 const responseEl = document.querySelector("#response");
 
+// creating variables that link to their respective section in the HTML document
 const introSection = document.querySelector(".intro");
 const quizSection = document.querySelector(".quiz");
 const scoresSection = document.querySelector(".highscores");
 const resultsSection = document.querySelector(".quiz-results");
 
+// default visibility of the various sections in the HTML document
 introSection.hidden = false;
 quizSection.hidden = true;
 scoresSection.hidden = true;
 resultsSection.hidden = true;
 
+// variables for the score, number of questions answers, and a tracker tracking if all questions have been answered.
 let score = 0;
 let questionsCount = 0;
 let allQuestionsAnswered = false;
 
+// an array of questions, their answers, and their options
 const questions = [
     {
         question: "Inside which HTML element do we put the JavaScript?",
@@ -61,12 +67,14 @@ const questions = [
     }
 ];
 
+// function checking if all questions have been answered
 const checkQuizOver = () => {
     if (questionsCount === questions.length) {
         allQuestionsAnswered = true;
     }
 }
 
+// timer function that will terminate when time reaches 0 or all questions have been answered
 const startTimer = () => {
     let timerCount = 10;
 
@@ -90,6 +98,7 @@ const startTimer = () => {
     }, 100);
 }
 
+// function that starts the quiz when the start buttton is pressed. Displays the quiz, hides everything else.
 const startQuiz = () => {
     allQuestionsAnswered = false;
     introSection.hidden = true;
@@ -99,6 +108,7 @@ const startQuiz = () => {
     startTimer();
 }
 
+// function that displays the quiz results when the quiz is over. Hides everything else
 const displayQuizResults = () => {
     resultsSection.hidden = false;
     introSection.hidden = true;
@@ -122,7 +132,15 @@ const displayMain = () => {
     highScoreBtn.disabled = false;
 }
 
+const submitScore = (event) => {
+
+    event.preventDefault();
+
+    displayScores();
+}
+
 startBtn.addEventListener("click", startQuiz);
 highScoreBtn.addEventListener("click", displayScores);
 backBtn.addEventListener("click", displayMain);
 returnBtn.addEventListener("click", displayMain);
+submitBtn.addEventListener("click", submitScore);
