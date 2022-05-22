@@ -1,0 +1,35 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.intro {
+    max-width: 500px;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px;
+}
+
+ol {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.507);
+    margin: 10px;
+}
+
+#description {
+    padding: 5px;
+    margin: 10px;
+    border-bottom: 1px solid rgba(128, 128, 128);
+}

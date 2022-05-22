@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Code Quiz</title>
+  </head>
+  <body>
+    <header>
+      <div class="highscore-button-container">
+        <button type="button" id="highscore-button">Highscores</button>
+      </div>
+
+      <div class="timer">
+        <h2>Time: <span id="time-count">10</span></h2>
+      </div>
+    </header>
+
+    <main>
+
+      <div class="intro">
+        <h1 id="title">Coding Quiz Challenge</h1>
+        <p id="description">
+          Welcome to the Coding Quiz Challenge. This is a timed quiz. When you
+          click the start button, you will be presented with a series of
+          questions, and a timer will start in the top right. If you answer a
+          question correctly, no time will be deducted from the timer. If you
+          answer a question incorrectly, 10 seconds will be deducted from the
+          timer. When all questions are answered or the timer reaches 0, the
+          quiz is over and your score will be displayed. You will be given the
+          option to save your initials and your score once the quiz is over.
+        </p>
+        <button type="button" id="start">Start</button>
+      </div>
+
+      <div class="quiz">
+
+        <h1 id="question"></h1>
+        <ol class="options"></ol>
+        <p class="response"></p>
+
+      </div>
+
+      <div class="highscores">
+        <h1 id="user-score">HIGHSCORES</h1>
+        <button type="button" class="back">Back</button>
+      </div>
+    </main>
+
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
