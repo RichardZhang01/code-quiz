@@ -23,9 +23,15 @@ h1 {
     margin: 20px;
 }
 
-ol {
+ul {
     border-bottom: 1px solid rgba(128, 128, 128, 0.507);
     margin: 10px;
+    list-style: none;
+    padding: 10px;
+}
+
+li {
+    margin: 5px;
 }
 
 #description {
