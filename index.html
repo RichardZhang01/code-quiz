@@ -13,7 +13,7 @@
       </div>
 
       <div class="timer">
-        <h2>Time: <span id="time-count">10</span></h2>
+        <h2>Time: <span id="time-count">60</span></h2>
       </div>
     </header>
 
@@ -34,7 +34,7 @@
         <button type="button" id="start">Start</button>
       </section>
 
-      <section class="quiz">
+      <section class="quiz" hidden>
 
         <h1 id="question"></h1>
         <ul class="options"></ul>
@@ -42,24 +42,25 @@
 
       </section>
 
-      <section class="highscores">
+      <section class="highscores" hidden>
 
         <h1 id="user-score">HIGHSCORES</h1>
-        <ul id="scores"></ul>
+        <table class="scores">
+        </table>
         <button type="button" id="back">Back</button>
         <button type="button" id="clear">Clear Highscores</button>
 
       </section>
 
-      <section class="quiz-results">
+      <section class="quiz-results" hidden>
 
         <h1 id="results">Nice Work!</h1>
         <p id="final-score"></p>
 
         <form class="save-score">
-          <label for="initials">Enter your initials:</label>
-          <input pattern="^[A-Za-z]+" oninvalid="setCustomValidity('Please enter on alphabets only.')" type="text" id="initials" name="initials"  placeholder="Your initials"><br>
-          <input type="submit" value="Submit" id="submit"></button>
+          <input type="text" id="initials" name="initials" title="initials: three letters max"
+          maxlength="3" pattern="[A-Za-z]" placeholder="Your initials" autofocus>
+          <button type="submit" id="submit">Save Score</button>
         </form>
 
         <button type="button" id="return">Back</button>  

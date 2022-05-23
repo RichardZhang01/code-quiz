@@ -39,3 +39,11 @@ li {
     margin: 10px;
     border-bottom: 1px solid rgba(128, 128, 128);
 }
+
+/* input:invalid {
+    border: red solid 3px;
+} */
+
+table {
+    text-align: center;
+}

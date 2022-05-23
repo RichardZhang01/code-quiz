@@ -13,7 +13,7 @@ const answersEl = document.querySelector(".options");
 const responseEl = document.querySelector(".response");
 const questionEl = document.querySelector("#question");
 const finalScoreEl = document.querySelector("#final-score");
-const scoresEl = document.querySelector("#scores");
+const scoresEl = document.querySelector(".scores");
 
 // creating variables that link to their respective section in the HTML document
 const introSection = document.querySelector(".intro");
@@ -30,7 +30,7 @@ scoresSection.hidden = true;
 resultsSection.hidden = true;
 
 // variables keeping track of the various parts of the quiz
-let timerCount = 100;
+let timerCount = 60;
 let correctAnswers = 0;
 let questionsCount = 0;
 let allQuestionsAnswered = false;
@@ -66,11 +66,44 @@ const questions = [
 
     {
         question: "What is a variable?",
-        answer: "Store values so we can use them later and change them from the code.",
+        answer: "Store values so we can use them later and change them from the code",
         options: ["Store values so we can use them later and change them from the code", 
         "Store values so we can use them but cannot change them",
         "Store values so we can use them once", 
         "Store values in containers so we can't use them later"]
+    },
+
+    {
+        question: "What does HTML stand for?",
+        answer: "Hyper Text Markup Language",
+        options: ["Hyperlinks and Text Markup Language", 
+        "Hyper Text Markup Language",
+        "Home Tool Markup Language"]
+    },
+
+    {
+        question: "If we want to place text around an image, which CSS property should we use?",
+        answer: "Float",
+        options: ["Push", "Float", "Align", "Wrap"]
+    },
+
+    {
+        question: "Suppose we want to arrange three DIVs so that DIV 3 is placed above DIV1. Now, which CSS property are we going to use to control the stack order?",
+        answer: "Z-index",
+        options: ["D-index", "S-index", "X-index", "Z-index"]
+    },
+
+    {
+        question: 'Which of the following will write the message “Hello World!” in an alert box?',
+        answer: 'alert(“Hello World!”);',
+        options: ['alertBox(“Hello World!”);', 'alert(Hello World!);', 
+        'msgAlert(“Hello World!”);', 'alert(“Hello World!”);']
+    },
+
+    {
+        question: "Choose the correct HTML tag for a large title.",
+        answer: "H1",
+        options: ["H1", "Heading", "Head", "H6"]
     }
 ];
 
@@ -86,7 +119,7 @@ const checkQuizOver = () => {
 const startTimer = () => {
 
     // resets the counter
-    timerCount = 100;
+    timerCount = 60;
 
     const timer = setInterval(function () {
 
@@ -112,7 +145,7 @@ const startTimer = () => {
     }, 1000);
 };
 
-// function that feeds questions and answers from the questions array (line 48)
+// function that feeds questions and answers from the questions array
 // into the quiz section
 const displayQuiz = () => {
 
@@ -146,7 +179,7 @@ const checkAnswer = (event) => {
 
             // if the option was correct, displays a message, counter tracking correct answers and questions
             // answered increases by 1, and resets the quiz section so that a new question and its options
-            // can populate the section. Also calls the checkQuizOver function (line 78)
+            // can populate the section. Also calls the checkQuizOver function
             responseEl.textContent = "Correct!";
             correctAnswers++;
             answersEl.innerHTML = "";
@@ -159,9 +192,9 @@ const checkAnswer = (event) => {
 
             // if the option is incorrect, displays a message, timer decreases, counter tracking answers
             // answered increases by 1, and the quiz section is reset for the next question. Also calls the
-            // checkQuizOver function (line 78)
+            // checkQuizOver function
             responseEl.textContent = "Wrong!";
-            timerCount -= 5;
+            timerCount -= 10;
             answersEl.innerHTML = "";
             questionEl.textContent = "";
             questionsCount++;
@@ -172,7 +205,7 @@ const checkAnswer = (event) => {
         return;
     };
 
-    // if the quiz is finished, this function exits. If not, calls the displayQuiz function (line 117)
+    // if the quiz is finished, this function exits. If not, calls the displayQuiz function
     // which will display the next question and its options.
     if (allQuestionsAnswered === true) {
         return;
@@ -240,7 +273,7 @@ const displayScores = () => {
 const displayMain = () => {
 
     // resets the timer
-    timerEl.textContent = 100;
+    timerEl.textContent = 60;
 
     // displays the main section while keeping everything else hidden. Also reenables the 
     // highscore button that takes the user to the score page if it had been disabled
@@ -258,18 +291,24 @@ const submitScore = (event) => {
     // prevents the form from refreshing the page
     event.preventDefault();
 
+    // variable that tests if the user's input consists of only letters. true if yes, false otherwise
+    const testString = /^[a-zA-Z]+$/.test(initialsInput.value);
+
+    // function displays a message to the user if they do not enter anything in the input box, or if they 
+    // enter non-alpha characters. function then exits
+    if (initialsInput.value === "") {
+        window.alert("Please enter your initials if you wish to submit your score.");
+        return;
+    } else if (!testString) {
+        window.alert("Please enter only letters.");
+        return;
+    };   
+
     // creation of an object used to store the user's initials and score that will be added to an array
     const obj = {
         initials: initialsInput.value.toUpperCase().trim(),
         score: correctAnswers,
     };
-
-    // function doesn't do anything if no initials are entered. displayScores function (line 225)
-    // is called to change sections
-    if (initialsInput.value === "") {
-        displayScores();
-        return;
-    }     
 
     // adds the user's information to the storedScores array and then stores all of the saved scores to
     // localStorage. Also clears the initials input box
@@ -277,7 +316,7 @@ const submitScore = (event) => {
     localStorage.setItem("scores", JSON.stringify(storedScores));
     initialsInput.value = "";
 
-    // calls the displayScores function (line 225) and renderScores function (line 285)
+    // calls the displayScores function and renderScores function
     displayScores();
     renderScores();
 };
@@ -288,21 +327,60 @@ const renderScores = () => {
     scoresEl.innerHTML = "";
 
     // stores the information from localStorage in an array (empty if nothing in localStorage)
-    const scoresArray = JSON.parse(localStorage.getItem("scores")) || [];
+    let scoresArray = JSON.parse(localStorage.getItem("scores")) || [];
 
-    // function exits if there's nothing saved in localStorage
-    if (!scoresArray) {
+    // sorts the array by score
+    scoresArray.sort((a, b) => b.score - a.score);
+
+    // checks if the array is empty
+    if (scoresArray.length === 0) {
+
+        // creates a default message to display when no scores are saved to localStorage
+        let defaultHead = document.createElement("tr");
+        let noScores = document.createElement("tr");
+        noScores.textContent = "No highscores are currently available";
+
+        scoresEl.appendChild(defaultHead);
+        defaultHead.appendChild(noScores);
+
+        // function exits
         return;
     }
+
+    let firstRow = document.createElement("tr");
+
+    let th0 = document.createElement("th");
+    th0.textContent = "";
+
+    let th1 = document.createElement("th");
+    th1.textContent = "Player";
+
+    let th2 = document.createElement("th");
+    th2.textContent = "Score";
+
+    scoresEl.appendChild(firstRow);
+    firstRow.appendChild(th0);
+    firstRow.appendChild(th1);
+    firstRow.appendChild(th2);
     
     // populates scores page with stored initials and score data in localStorage
     for (let i = 0; i < scoresArray.length; i++) {
 
-        let li = document.createElement("li");        
-        li.setAttribute("data-index", i);
-        li.textContent = `Initials: ${scoresArray[i].initials} Score:${scoresArray[i].score}`;
+        let tr = document.createElement("tr");
+
+        let td0 = document.createElement("td");
+        td0.textContent = i + 1;
+
+        let td1 = document.createElement("td");        
+        td1.textContent = scoresArray[i].initials;
+
+        let td2 = document.createElement("td");        
+        td2.textContent = scoresArray[i].score;
     
-        scoresEl.appendChild(li);
+        scoresEl.appendChild(tr);
+        tr.appendChild(td0);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
     }
 };
 
@@ -313,12 +391,12 @@ const clearScores = () => {
     localStorage.clear();
     storedScores = [];
 
-    // calls renderScores function (line 286) to clear the scores list
+    // calls renderScores function to clear the scores list
     renderScores();
 };
 
 // function that runs when the page initially loads. Basically just calls the renderScores
-// function (line 286) which retrieves localStorage data and populates the scores list
+// function which retrieves localStorage data and populates the scores list
 const init = () => {
     renderScores();
 };
@@ -334,5 +412,5 @@ clearBtn.addEventListener("click", clearScores);
 // An event listener on the container for the options for each question
 quizSection.addEventListener("click", checkAnswer);
 
-// calls init function (line 322) when the page loads
+// calls init function when the page loads
 init();
