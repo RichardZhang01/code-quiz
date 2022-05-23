@@ -45,6 +45,7 @@
       <section class="highscores">
 
         <h1 id="user-score">HIGHSCORES</h1>
+        <ul id="scores"></ul>
         <button type="button" id="back">Back</button>
         <button type="button" id="clear">Clear Highscores</button>
 
@@ -53,10 +54,11 @@
       <section class="quiz-results">
 
         <h1 id="results">Nice Work!</h1>
+        <p id="final-score"></p>
 
         <form class="save-score">
           <label for="initials">Enter your initials:</label>
-          <input type="text" id="initials" name="initials" placeholder="Your initials"><br>
+          <input pattern="^[A-Za-z]+" oninvalid="setCustomValidity('Please enter on alphabets only.')" type="text" id="initials" name="initials"  placeholder="Your initials"><br>
           <input type="submit" value="Submit" id="submit"></button>
         </form>
 

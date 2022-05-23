@@ -12,12 +12,16 @@ const titleEl = document.querySelector("#title");
 const answersEl = document.querySelector(".options");
 const responseEl = document.querySelector(".response");
 const questionEl = document.querySelector("#question");
+const finalScoreEl = document.querySelector("#final-score");
+const scoresEl = document.querySelector("#scores");
 
 // creating variables that link to their respective section in the HTML document
 const introSection = document.querySelector(".intro");
 const quizSection = document.querySelector(".quiz");
 const scoresSection = document.querySelector(".highscores");
 const resultsSection = document.querySelector(".quiz-results");
+
+const initialsInput = document.querySelector("#initials");
 
 // default visibility of the various sections in the HTML document
 introSection.hidden = false;
@@ -30,6 +34,7 @@ let timerCount = 100;
 let correctAnswers = 0;
 let questionsCount = 0;
 let allQuestionsAnswered = false;
+let storedScores = JSON.parse(localStorage.getItem("scores")) || [];
 
 // an array of questions, their answers, and their options
 const questions = [
@@ -107,7 +112,7 @@ const displayQuiz = () => {
 
     questionEl.textContent = questions[questionsCount].question;
 
-    for (var i = 0; i < questions[questionsCount].options.length; i++) {
+    for (let i = 0; i < questions[questionsCount].options.length; i++) {
             
         let li = document.createElement("li");        
         li.setAttribute("data-index", i);
@@ -119,7 +124,6 @@ const displayQuiz = () => {
         answersEl.appendChild(li);
 
       };
-    
 };
 
 const checkAnswer = (event) => {
@@ -157,28 +161,36 @@ const checkAnswer = (event) => {
     }
 };
 
-// function that starts the quiz when the start buttton is pressed. Displays the quiz, hides everything else.
+// function that starts the quiz when the start buttton is pressed. 
 const startQuiz = () => {
 
+    // sets all sections to hidden except for the quiz section
     introSection.hidden = true;
     quizSection.hidden = false;
     resultsSection.hidden = true;
     highScoreBtn.disabled = true;
 
+    // Makes sure that the quiz section is initially empty before populating it with questions/answers
     answersEl.innerHTML = "";
     questionEl.textContent = "";
+    responseEl.textContent = "";
 
+    // initializes the variables tracking different parts of the quiz
     allQuestionsAnswered = false;
     questionsCount = 0;
     correctAnswers = 0;
 
+    // calls the timer function (which starts the timer), and the displayQuiz function that shows the quiz section
+    // and populates the section with questions and answers
     startTimer();
     displayQuiz();
 
 };
 
-// function that displays the quiz results when the quiz is over. Hides everything else
+// function that displays the quiz results when the quiz is over
 const displayQuizResults = () => {
+
+    finalScoreEl.textContent = `Your final score was: ${correctAnswers} out of ${questions.length}`;
 
     resultsSection.hidden = false;
     introSection.hidden = true;
@@ -194,6 +206,8 @@ const displayScores = () => {
     scoresSection.hidden = false;
     resultsSection.hidden = true;
     highScoreBtn.disabled = false;
+
+    scoresEl.innerHTML == "";
 
 };
 
@@ -213,7 +227,52 @@ const submitScore = (event) => {
 
     event.preventDefault();
 
+    const obj = {
+        initials: initialsInput.value.toUpperCase().trim(),
+        score: correctAnswers,
+    };
+
+    if (initialsInput.value === "") {
+        displayScores();
+        return;
+    }     
+
+    storedScores.push(obj);
+    localStorage.setItem("scores", JSON.stringify(storedScores));
+    initialsInput.value = "";
+
     displayScores();
+    renderScores();
+};
+
+const renderScores = () => {
+    scoresEl.innerHTML = "";
+
+    const scoresArray = JSON.parse(localStorage.getItem("scores")) || [];
+
+    if (!scoresArray) {
+        return;
+    }
+    
+    for (let i = 0; i < scoresArray.length; i++) {
+
+        let li = document.createElement("li");        
+        li.setAttribute("data-index", i);
+        li.textContent = `Initials: ${scoresArray[i].initials} Score:${scoresArray[i].score}`;
+    
+        scoresEl.appendChild(li);
+    }
+};
+
+const clearScores = () => {
+    localStorage.clear();
+    storedScores = [];
+
+    renderScores();
+};
+
+const init = () => {
+    renderScores();
 };
 
 startBtn.addEventListener("click", startQuiz);
@@ -221,5 +280,8 @@ highScoreBtn.addEventListener("click", displayScores);
 backBtn.addEventListener("click", displayMain);
 returnBtn.addEventListener("click", displayMain);
 submitBtn.addEventListener("click", submitScore);
+clearBtn.addEventListener("click", clearScores);
 
 quizSection.addEventListener("click", checkAnswer);
+
+init();
