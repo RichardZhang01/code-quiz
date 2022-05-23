@@ -85,20 +85,24 @@ const checkQuizOver = () => {
 // timer function that will terminate when time reaches 0 or all questions have been answered
 const startTimer = () => {
 
+    // resets the counter
     timerCount = 100;
 
     const timer = setInterval(function () {
 
+        // displays the time left
         timerCount--;
         timerEl.textContent = timerCount;
 
         if (timerCount > 0) {
+            // checks if all questions have been answered. Displays results section
             if (allQuestionsAnswered && timerCount > 0) {
                 clearInterval(timer);
                 displayQuizResults();
             };
         }
 
+        // checks if time has run out. Displays results section
         if (timerCount <= 0) {
             clearInterval(timer);
             displayQuizResults();
@@ -108,10 +112,14 @@ const startTimer = () => {
     }, 1000);
 };
 
+// function that feeds questions and answers from the questions array (line 48)
+// into the quiz section
 const displayQuiz = () => {
 
+    // Displays the question
     questionEl.textContent = questions[questionsCount].question;
 
+    // creates and displays the options for each question as buttons
     for (let i = 0; i < questions[questionsCount].options.length; i++) {
             
         let li = document.createElement("li");        
@@ -126,22 +134,32 @@ const displayQuiz = () => {
       };
 };
 
+// function that checks which answer the user selected
 const checkAnswer = (event) => {
     let element = event.target;
 
+    // checks that a button has been clicked
     if (element.matches("button")) {
 
+        // checks that the option that the user selected was the correct answer
         if (element.textContent === questions[questionsCount].answer) {
 
+            // if the option was correct, displays a message, counter tracking correct answers and questions
+            // answered increases by 1, and resets the quiz section so that a new question and its options
+            // can populate the section. Also calls the checkQuizOver function (line 78)
             responseEl.textContent = "Correct!";
             correctAnswers++;
             answersEl.innerHTML = "";
             questionEl.textContent = "";
             questionsCount++;
             checkQuizOver();
-
+        
+        // This condition runs if the user selected the incorrect answer
         } else {
 
+            // if the option is incorrect, displays a message, timer decreases, counter tracking answers
+            // answered increases by 1, and the quiz section is reset for the next question. Also calls the
+            // checkQuizOver function (line 78)
             responseEl.textContent = "Wrong!";
             timerCount -= 5;
             answersEl.innerHTML = "";
@@ -154,6 +172,8 @@ const checkAnswer = (event) => {
         return;
     };
 
+    // if the quiz is finished, this function exits. If not, calls the displayQuiz function (line 117)
+    // which will display the next question and its options.
     if (allQuestionsAnswered === true) {
         return;
     } else {
@@ -190,8 +210,10 @@ const startQuiz = () => {
 // function that displays the quiz results when the quiz is over
 const displayQuizResults = () => {
 
+    // displays the user's final score
     finalScoreEl.textContent = `Your final score was: ${correctAnswers} out of ${questions.length}`;
 
+    // makes the results section visible, while all other sections remain hidden
     resultsSection.hidden = false;
     introSection.hidden = true;
     quizSection.hidden = true;
@@ -199,22 +221,29 @@ const displayQuizResults = () => {
 
 };
 
+// function that displays the users' scores
 const displayScores = () => {
 
+    // only makes the scores section visible
     introSection.hidden = true;
     quizSection.hidden = true;
     scoresSection.hidden = false;
     resultsSection.hidden = true;
     highScoreBtn.disabled = false;
 
+    // resets the scores list for repopulation by the localStorage scores
     scoresEl.innerHTML == "";
 
 };
 
+// function that displays the main page of the quiz
 const displayMain = () => {
 
+    // resets the timer
     timerEl.textContent = 100;
 
+    // displays the main section while keeping everything else hidden. Also reenables the 
+    // highscore button that takes the user to the score page if it had been disabled
     introSection.hidden = false;
     quizSection.hidden = true;
     scoresSection.hidden = true;
@@ -223,37 +252,50 @@ const displayMain = () => {
 
 };
 
+// function that saves the user's initials and score
 const submitScore = (event) => {
 
+    // prevents the form from refreshing the page
     event.preventDefault();
 
+    // creation of an object used to store the user's initials and score that will be added to an array
     const obj = {
         initials: initialsInput.value.toUpperCase().trim(),
         score: correctAnswers,
     };
 
+    // function doesn't do anything if no initials are entered. displayScores function (line 225)
+    // is called to change sections
     if (initialsInput.value === "") {
         displayScores();
         return;
     }     
 
+    // adds the user's information to the storedScores array and then stores all of the saved scores to
+    // localStorage. Also clears the initials input box
     storedScores.push(obj);
     localStorage.setItem("scores", JSON.stringify(storedScores));
     initialsInput.value = "";
 
+    // calls the displayScores function (line 225) and renderScores function (line 285)
     displayScores();
     renderScores();
 };
 
+// function that renders saved scores in localStorage to the scores section
 const renderScores = () => {
+    // clears the scores list for repopulation from localStorage
     scoresEl.innerHTML = "";
 
+    // stores the information from localStorage in an array (empty if nothing in localStorage)
     const scoresArray = JSON.parse(localStorage.getItem("scores")) || [];
 
+    // function exits if there's nothing saved in localStorage
     if (!scoresArray) {
         return;
     }
     
+    // populates scores page with stored initials and score data in localStorage
     for (let i = 0; i < scoresArray.length; i++) {
 
         let li = document.createElement("li");        
@@ -264,17 +306,24 @@ const renderScores = () => {
     }
 };
 
+// function that clears localStorage data
 const clearScores = () => {
+
+    // this clears localStorage data and resets any stored scores in the script to an empty array
     localStorage.clear();
     storedScores = [];
 
+    // calls renderScores function (line 286) to clear the scores list
     renderScores();
 };
 
+// function that runs when the page initially loads. Basically just calls the renderScores
+// function (line 286) which retrieves localStorage data and populates the scores list
 const init = () => {
     renderScores();
 };
 
+// All of the button event listeners and their respective function calls
 startBtn.addEventListener("click", startQuiz);
 highScoreBtn.addEventListener("click", displayScores);
 backBtn.addEventListener("click", displayMain);
@@ -282,6 +331,8 @@ returnBtn.addEventListener("click", displayMain);
 submitBtn.addEventListener("click", submitScore);
 clearBtn.addEventListener("click", clearScores);
 
+// An event listener on the container for the options for each question
 quizSection.addEventListener("click", checkAnswer);
 
+// calls init function (line 322) when the page loads
 init();
