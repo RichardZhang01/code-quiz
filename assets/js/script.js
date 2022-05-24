@@ -35,6 +35,7 @@ let correctAnswers = 0;
 let questionsCount = 0;
 let allQuestionsAnswered = false;
 let storedScores = JSON.parse(localStorage.getItem("scores")) || [];
+let responses = "";
 
 // an array of questions, their answers, and their options
 const questions = [
@@ -180,7 +181,8 @@ const checkAnswer = (event) => {
             // if the option was correct, displays a message, counter tracking correct answers and questions
             // answered increases by 1, and resets the quiz section so that a new question and its options
             // can populate the section. Also calls the checkQuizOver function
-            responseEl.textContent = "Correct!";
+            responses = responses.concat("✅");
+            responseEl.textContent = responses;
             correctAnswers++;
             answersEl.innerHTML = "";
             questionEl.textContent = "";
@@ -193,7 +195,8 @@ const checkAnswer = (event) => {
             // if the option is incorrect, displays a message, timer decreases, counter tracking answers
             // answered increases by 1, and the quiz section is reset for the next question. Also calls the
             // checkQuizOver function
-            responseEl.textContent = "Wrong!";
+            responses = responses.concat("❌");
+            responseEl.textContent = responses;
             timerCount -= 10;
             answersEl.innerHTML = "";
             questionEl.textContent = "";
@@ -232,6 +235,7 @@ const startQuiz = () => {
     allQuestionsAnswered = false;
     questionsCount = 0;
     correctAnswers = 0;
+    responses = "";
 
     // calls the timer function (which starts the timer), and the displayQuiz function that shows the quiz section
     // and populates the section with questions and answers
@@ -337,7 +341,7 @@ const renderScores = () => {
 
         // creates a default message to display when no scores are saved to localStorage
         let defaultHead = document.createElement("tr");
-        let noScores = document.createElement("tr");
+        let noScores = document.createElement("td");
         noScores.textContent = "No highscores are currently available";
 
         scoresEl.appendChild(defaultHead);
@@ -347,6 +351,7 @@ const renderScores = () => {
         return;
     }
 
+    // creates the header row for the highscores table if scoresArray is not empty
     let firstRow = document.createElement("tr");
 
     let th0 = document.createElement("th");
