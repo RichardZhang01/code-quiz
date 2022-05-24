@@ -8,6 +8,7 @@
   </head>
   <body>
 
+    <!-- Header containing the highschore button (which takes you to the highescores section) and the timer for the quiz -->
     <header>
 
       <div class="highscore-button-container">
@@ -22,6 +23,7 @@
 
     <main>
 
+      <!-- The intro section. First thing the user should see on the page. also the main section where the user starts the quiz from -->
       <section class="intro">
 
         <h1 id="title">Coding Quiz Challenge</h1>
@@ -42,6 +44,7 @@
 
       </section>
 
+      <!-- Quiz section that populates with questions using JS. Hidden until the user starts the quiz -->
       <section class="quiz" hidden>
 
         <h1 id="question"></h1>
@@ -52,6 +55,8 @@
 
       </section>
 
+      <!-- Highscores section that populates with stored scores in localStorage using JS. Hidden until the user clicks the highscores button -->
+      <!-- or the user finishes and submits their score and initials -->
       <section class="highscores" hidden>
 
         <h1 id="user-score">HIGHSCORES</h1>
@@ -68,6 +73,8 @@
         
       </section>
 
+      <!-- Quiz results section that displays the user's score and allows them to input their initials and save their score after they finish -->
+      <!-- the quiz. Hidden until the quiz finishes -->
       <section class="quiz-results" hidden>
 
         <h1 id="results">Nice Work!</h1>

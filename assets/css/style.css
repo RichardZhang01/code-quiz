@@ -1,3 +1,4 @@
+/* || Global Styles */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -16,6 +17,10 @@ body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', sans-serif;
 }
 
+
+
+
+/* || General Button Styles */
 button {
     background-color: var(--theme-color);
     color: white;
@@ -23,14 +28,23 @@ button {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    transition: all 0.3s linear;
+    transition: all 0.5s ease-in-out;
 }
 
 button:hover {
     background-color: var(--hover-color);
 }
 
+button:active {
+    background-color: #664692;
+    box-shadow: inset 0px 0px 5px black;
+    outline: none;
+}
 
+
+
+
+/* || Header styles */
 header {
     display: flex;
     justify-content: space-between;
@@ -50,18 +64,22 @@ header {
 
 
 
+
+/* || General Styles */
+/* Making the entire main section a flexbox */
 main {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Making the hidden attribute higher-level so that the HTML sections that I want to */
+/* display hidden actually are hidden */
 [hidden] {
     display:none;
 }
 
-
-
+/* Keeping every section consistent in the page */
 section {
     background-color: white;
     border-radius: 10px;
@@ -77,6 +95,8 @@ section {
 
 
 
+
+/* || Intro section styles */
 h1 {
     text-align: center;
     margin: 20px;
@@ -104,6 +124,8 @@ h1 {
 
 
 
+
+/* || Quiz section styles */
 ul {
     border-bottom: 1px solid rgba(128, 128, 128, 0.507);
     margin: 10px;
@@ -125,51 +147,8 @@ li button {
 
 
 
-#quiz-results {
-    flex-wrap: wrap;
-}
 
-#final-score {
-    margin-bottom: 10px;
-}
-
-form {
-    width: 90%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    font-size: 1.2rem;
-    transition: all 0.3s ease-in-out;
-    flex-wrap: wrap;
-}
-
-input {
-    width: 70%;
-    height: 25px;
-    border: var(--theme-color) 3px solid;
-    margin: 5px;
-}
-
-input:focus {
-    outline: 0;
-    border: #7166ce 3px solid;
-}
-
-#submit {
-    width: 20%;
-    padding: 5px;
-}
-
-#return {
-    margin: 10px;
-    width: 30%;
-    font-size: 1.2rem;
-    padding: 5px;
-}
-
-
-
-
+/* || Highscores section styles */
 table {
     text-align: center;
     font-size: 1.4rem;
@@ -218,6 +197,53 @@ tr:nth-child(odd) {
 
 
 
+/* || Results page styles */
+#quiz-results {
+    flex-wrap: wrap;
+}
+
+#final-score {
+    margin-bottom: 10px;
+}
+
+form {
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease-in-out;
+    flex-wrap: wrap;
+}
+
+input {
+    width: 70%;
+    height: 25px;
+    border: var(--theme-color) 3px solid;
+    margin: 5px;
+}
+
+input:focus {
+    outline: 0;
+    border: #7166ce 3px solid;
+}
+
+#submit {
+    width: 20%;
+    padding: 5px;
+}
+
+#return {
+    margin: 10px;
+    width: 30%;
+    font-size: 1.2rem;
+    padding: 5px;
+}
+
+
+
+
+/* || Media queries for responsiveness */
 @media screen and (max-width: 992px) {
 
     section {
