@@ -125,6 +125,10 @@ li button {
 
 
 
+#quiz-results {
+    flex-wrap: wrap;
+}
+
 #final-score {
     margin-bottom: 10px;
 }
@@ -136,12 +140,14 @@ form {
     align-items: center;
     font-size: 1.2rem;
     transition: all 0.3s ease-in-out;
+    flex-wrap: wrap;
 }
 
 input {
     width: 70%;
     height: 25px;
     border: var(--theme-color) 3px solid;
+    margin: 5px;
 }
 
 input:focus {
@@ -206,4 +212,49 @@ tr:nth-child(odd) {
     width: 150px;
     font-size: 1rem;
     padding: 5px;
+    margin: 5px;
+}
+
+
+
+
+@media screen and (max-width: 992px) {
+
+    section {
+        width: 75%
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    
+    header {
+        flex-direction: column-reverse;
+    }
+
+    table {
+        width: 90%;
+    }
+
+    .button-container {
+        flex-direction: column-reverse;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    input {
+        width: 90%;
+    }
+
+    #submit {
+        width: 30%;
+    }
+
+    #final-score {
+        width: 90%;
+        text-align: center;
+    }
+
 }
